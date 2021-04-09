@@ -8,7 +8,7 @@ Mortality information is obtained from death certificates available for deceased
 The 11-year follow up consists of a subset of the 39 NLMS cohorts included in the full NLMS that can be followed prospectively for 11 years. The content of each record on the file includes demographic and socioeconomic variables combined with a mortality outcome, if there is one. To prevent disclosure, all of the records have been concatenated into a single file and the temporal dimension has been altered. In lieu of identifying the CPS year and starting point of mortality follow-up for each file, all of the records in have been assigned an imaginary starting point conceptually identified as April 1, 1990. These records are then tracked forward for 11 years to observe whether person in the file has died. This approach results in a maximum of 4018 days of follow up for this cohort.
 
 For those who have died, the underlying cause of death and follow-up time until death have been provided. For those not deceased by the end of 4018 days follow-up period, the follow-up time provided is the full observation length, 4018 days or 11 years. In the construction of data, it was assumed that these surveys, collected from throughout the 1980s and 1990s, would adequately reflect the U.S. non-institutionalized population on April 1, 1990. Under this assumption, the separate CPS samples have been combined and can be viewed as one large sample taken on that date.
-The data attributes are explained here.
+The data attributes are explained [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/docs/Reference%20Manual%20Version%205.docx).
 
 ### data
 The dataset can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/data_/data.csv).
