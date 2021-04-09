@@ -1,4 +1,4 @@
-# predict-suicides-to-save-lives
+# predict suicides to save lives
 The National Longitudinal Mortality Study (NLMS) is a national, longitudinal, mortality study sponsored by the parts of the National Institutes of Health, and Center for Disease Control and Prevention and the U.S. Census Bureau for the purpose of studying the effects of differentials in demographic and socio-economic characteristics on mortality.
 
 The main NLMS consists of a database developed for the purpose of studying the effects of demographic and socio-economic characteristics on differentials in U.S. mortality rates. It consists of U.S. Census Bureau data from Current Population Surveys (CPS) and a subset of the 1980 Census combined with death certificate information to identify mortality status and cause of death. The study currently has approximately 3.8 million records with over 550,000 identified mortality cases. The content of the socio-economic variables available offers researchers the potential to answer questions on mortality differentials for a variety of key socio-economic and demographic subgroups not covered as extensively in other databases. 
