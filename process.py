@@ -3,52 +3,36 @@ import sys
 sys.path.insert( 0, r"E:\office\GPC\repos\integration automation\data_integration" )
 from toolkit import get_data, regulate_data_types, write_excel_sheet_v2
 sys.path.insert( 0, r"E:\Upswing Pursuit\Projects\toolkit" )
-from ml_toolkit import orchestrate_data_modelling_for_str_attributes, model_data_with_str_attributes, encode_str_columns
-import pandas as pd
+from ml_toolkit import encode_str_columns
+
 import numpy as np
+import pandas as pd
+from sklearn.model_selection import train_test_split, GridSearchCV
+from sklearn.preprocessing import StandardScaler
 from xgboost import XGBClassifier
 # In[]
-data = get_data( "data/11.csv", dtype = str )
-# cerebro vascular disease
-data.loc[ data[ 'Cause113' ].isin( [ '061' ] ) ] # 10889
-# asthama
-data.loc[ data[ 'Cause113' ].isin( [ '072' ] ) ] # 319
-
-# suicide
-data[ 'Cause113' ] = data[ 'Cause113' ].astype( int )
-data = data.loc[ data[ 'Cause113' ].isin( [ 100 ] + list( range( 104, 109 ) ) ) ]
-data.reset_index( inplace = True, drop = True )
-data[ "Suicide" ] = 0
-data.loc[ data[ "Cause113" ].isin( [ 105, 106 ] ), "Suicide" ] = 1
+data = get_data( "data_/data.csv", dtype = str )
 
 # In[]
-data[ "Working" ] = 1
-data.loc[ data[ "Occ" ].isnull(), "Working" ] = 0
-
-data.drop( columns = [ "Record", "Wt", "Hhid", "Occ", "Ind", "Dayod", "Cause113", "Inddea" ], inplace = True )
-number_cols = [ "Age", "Follow" ]
-data = regulate_data_types( 
-    data, 
-    enforce_str_on_columns = np.setdiff1d( data.columns, number_cols )
-)
-
-# In[]
-from sklearn.model_selection import train_test_split
-from sklearn.preprocessing import StandardScaler
-
 output_column = "Suicide"
 # drop columns which have only one unique value
 single_val_cols = [ x for x in data.columns if data[ x ].unique().shape[0] == 1 ]
 if len( single_val_cols ) > 0:
     data.drop( columns = single_val_cols, inplace = True )
 
+number_cols = [ "Age", "Follow" ]
+data[ number_cols ] = data[ number_cols ].astype( int )
+
+"""data = regulate_data_types( 
+    data, 
+    enforce_str_on_columns = np.setdiff1d( data.columns, number_cols )
+)"""
 # In[]
 factorization_technique = 'one-hot'
 data_ = encode_str_columns( data, technique = factorization_technique, str_attributes = None, max_unique_values_allowed_for_str = None, drop_extras = False, output_column = output_column )
 """scaler = StandardScaler()
 data_[ number_cols ] = scaler.fit_transform( data_[ number_cols ] )"""
 
-data_ = regulate_data_types( data_ )
 for x in data_.columns:
     data_[x] = pd.to_numeric( data_[x] )
 
@@ -117,7 +101,7 @@ param_grid = {
 """
     {'gamma': 0.25, 'learning_rate': 0.1, 'max_depth': 4, 'reg_lamda': 0, 'scaled_pos_weight': 1}
 """
-from sklearn.model_selection import GridSearchCV
+
 optimal_params = GridSearchCV(
     estimator = XGBClassifier( objective = 'binary:logistic', seed = 42, 
     subsample = 0.9, colsample_bytree = 0.5 ),
