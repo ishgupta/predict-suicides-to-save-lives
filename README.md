@@ -11,4 +11,4 @@ For those who have died, the underlying cause of death and follow-up time until 
 The data attributes are explained here.
 
 ### data
-The dataset can be found here[https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/data_/data.csv].
+The dataset can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/data_/data.csv).
