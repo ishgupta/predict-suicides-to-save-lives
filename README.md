@@ -14,12 +14,13 @@ The data attributes are explained [here](https://github.com/ishgupta/predict-sui
 The dataset can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/data_/data.csv).
 
 ### project structure
-The project contains 3 main scripts:
-0. ml_toolkit.py : a utility script having general ready-to-use functionalities which is utilized by all 3 scripts
-1. eda.ipynb : involves EDA
-2. process_xg_classifier.ipynb : involves experience with the XGBoost classifier
-3. process_nn_classifier.ipynb : involves experience with Pytorch model build for classification
-4. report.pdf : project report can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/output/docs/report.pdf)
+Please refer the main project files below:
+1. ml_toolkit.py : a utility script having general ready-to-use functionalities which is utilized by all 3 scripts
+2. eda.ipynb : involves EDA
+3. process_xg_classifier.ipynb : involves experience with the XGBoost classifier
+4. process_nn_classifier.ipynb : involves experience with Pytorch model build for classification
+5. report.pdf : project report can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/output/docs/report.pdf)
+6. proposal.pdf : [capstone proposal document](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/output/docs/proposal.pdf)
 # setup
 please make sure you have below packages installed to use the script:
 1. xgboost
