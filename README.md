@@ -19,7 +19,7 @@ The project contains 3 main scripts:
 1. eda.ipynb : involves EDA
 2. process_xg_classifier.ipynb : involves experience with the XGBoost classifier
 3. process_nn_classifier.ipynb : involves experience with Pytorch model build for classification
-
+4. report.pdf : project report can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/output/docs/report.pdf)
 # setup
 please make sure you have below packages installed to use the script:
 1. xgboost
