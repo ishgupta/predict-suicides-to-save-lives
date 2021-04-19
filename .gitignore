@@ -127,3 +127,8 @@ dmypy.json
 
 # Pyre type checker
 .pyre/
+data_/11.csv
+eda.py
+process.py
+process_nn.py
+Untitled.ipynb

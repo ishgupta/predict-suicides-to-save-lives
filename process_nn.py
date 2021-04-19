@@ -1,9 +1,5 @@
 # In[]
-import sys
-sys.path.insert( 0, r"E:\office\GPC\repos\integration automation\data_integration" )
-from toolkit import get_data, regulate_data_types, write_excel_sheet_v2
-sys.path.insert( 0, r"E:\Upswing Pursuit\Projects\toolkit" )
-from ml_toolkit import encode_str_columns
+from ml_toolkit import encode_str_columns, write_excel_sheet_v2
 
 import numpy as np
 import pandas as pd
@@ -15,19 +11,87 @@ import torch.nn.functional as F
 
 import datetime
 # In[]
-data = get_data( "data_/data.csv", dtype = str )
+output_column = 'Suicide'
+# In[]
+data = pd.read_csv( "data_/11.csv", dtype = str )
+data.columns = [ x.title() for x in data.columns ]
+# suicide
+data[ 'Cause113' ] = data[ 'Cause113' ].astype( int )
+
+data[ "Suicide" ] = 0
+data.loc[ data[ "Cause113" ].isin( [ 105, 106 ] ), "Suicide" ] = 1
+data.loc[ data[ "Cause113" ].isin( [ 100, 104, 107, 108, 109 ] ), "Suicide" ] = 2
+
+data[ "Working" ] = 1
+data.loc[ data[ "Occ" ].isnull(), "Working" ] = 0
+
+data.drop( columns = [ "Record", "Wt", "Hhid", "Occ", "Dayod", "Cause113", "Inddea", "Indalg" ], inplace = True )
+data.drop( columns = [ "Hosp", "Hospd" ], inplace = True )
+
+# type cast integer columns as int
+number_cols = [ "Age", "Follow" ]
+data[ number_cols ] = data[ number_cols ].astype( int )
+
+# clean data
+"""drop columns which have only one unique value"""
+single_val_cols = [ x for x in data.columns if data[ x ].unique().shape[0] == 1 ]
+if len( single_val_cols ) > 0:
+    print( "dropping '{0}' for they had only one unique value respectively".format( ", ".join( single_val_cols ) ) )
+    data.drop( columns = single_val_cols, inplace = True )
+else:
+    print( "no change, all the columns have at least 2 unique values in the data" )
+
+# drop columns with more than 40% of blank values
+null_values = data.isnull().sum().reset_index()
+null_values.columns = [ "column", "blanks" ]
+null_values = null_values.loc[ ( null_values[ "blanks" ] / data.shape[0] ) > 0.4 ]
+blank_cols = null_values['column'].tolist()
+null_values_df = data[ blank_cols + [ output_column ] ].copy( deep = True )
+for col in blank_cols:
+    null_values_df.loc[ null_values_df[ col ].notnull(), col ] = 1
+    null_values_df.loc[ null_values_df[ col ].isnull(), col ] = 0
+null_values_df.groupby( output_column ).sum()
+if null_values.shape[ 0 ] > 0:
+    print( "dropping columns: '{0}', for they had more than 40% of missing values in the data".format( null_values['column'].tolist() ) )
+    data.drop( columns = null_values['column'].tolist(), inplace = True )
+else:
+    print( "all okay. all the columns have at least 60% of values available in the column" )
+
+# lets transform follow up days into years
+data['Follow'] = ( round( data['Follow'] / 365, 0 ) ).astype( int )
+
+age_groups = [ 0, 6, 13, 19, 31, 60, 91 ]
+age_labels = [ "infant", "kid", "teenager", "adult", "man", "senior" ]
+data['Age'] = pd.cut( data['Age'] , bins = age_groups, labels = age_labels, right = False )
+
+data = data.astype( 'category' )
+
+from missingpy import MissForest
+
+imputer = MissForest()
+imputed_cols = data.drop( columns = [ 'Age', 'Suicide' ] ).columns
+
+data_copy = imputer.fit_transform( data.drop( columns = [ 'Age', 'Suicide' ] ) )
+data_copy = pd.DataFrame( data_copy, columns = imputed_cols )
+data_copy = data_copy.astype(int)
+data_copy = data_copy.astype( 'category' )
+data_copy = pd.concat( [ data_copy, data[ [ 'Age', 'Suicide' ] ] ], axis = 1 )
+data = data_copy
+
+# In
+write_excel_sheet_v2( data, "data_/11_data_imputed_miss_forest.csv")
+write_excel_sheet_v2( data, "data_/11_data_imputed_miss_forest.xlsx")
+
+# In[]
+# data = pd.read_csv( "data_/data_clean.csv", dtype = str )
+# data = pd.read_csv( "data/data_xg_clean_encoded.csv" )
+# training_acc_results = None
+# test_acc_results = None
+
+output_column = "Suicide"
 
 model_choice = [ "user", "sequential", "log_soft_max", "four" ]
 model_choice = input( "select a model: {0}".format( ", ".join( model_choice ) ) )
-# In[]
-output_column = "Suicide"
-# drop columns which have only one unique value
-single_val_cols = [ x for x in data.columns if data[ x ].unique().shape[0] == 1 ]
-if len( single_val_cols ) > 0:
-    data.drop( columns = single_val_cols, inplace = True )
-
-number_cols = [ "Age", "Follow" ]
-data[ number_cols ] = data[ number_cols ].astype( int )
 
 # In[]
 """
@@ -38,10 +102,9 @@ data[ number_cols ] = data[ number_cols ].astype( int )
 # prepare data
 
 factorization_technique = 'one-hot'
-data_ = encode_str_columns( data, technique = factorization_technique, str_attributes = None, max_unique_values_allowed_for_str = None, drop_extras = False, output_column = output_column )
+data_ = encode_str_columns( data.astype( str ), technique = factorization_technique, str_attributes = None, max_unique_values_allowed_for_str = None, drop_extras = False, output_column = output_column )
 """scaler = StandardScaler()
 data_[ number_cols ] = scaler.fit_transform( data_[ number_cols ] )"""
-
 
 for x in data_.columns:
     # data_[ x ] = pd.to_numeric( data_[x] )
@@ -55,10 +118,14 @@ y_train = torch.tensor( np.stack( y_train.values, axis = 0 ), dtype = torch.long
 y_test = torch.tensor( np.stack( y_test.values, axis = 0 ), dtype = torch.long )
 
 # In[]
+
+
+epochs = 100
+
 # instantiate the model
 input_features = X_train.shape[ 1 ]
-hidden_1_features = 20
-hidden_2_features = 20
+hidden_1_features = 64
+hidden_2_features = 64
 output_features = np.unique( y_test ).shape[ 0 ]
 
 nn_model = None
@@ -72,10 +139,16 @@ if model_choice == "user":
             self.f_connected_1 = nn.Linear( input_features, hidden_1 )
             self.f_connected_2 = nn.Linear( hidden_1, hidden_2 )
             self.out = nn.Linear( hidden_2, output_features )
+            self.batchnorm_1 = nn.BatchNorm1d( hidden_1 )
+            self.batchnorm_2 = nn.BatchNorm1d( hidden_2 )
+            self.dropout = nn.Dropout( p = 0.2 )
             
         def forward( self, x ):
             x = F.relu( self.f_connected_1( x ) )
+            x = self.batchnorm_1( x )
             x = F.relu( self.f_connected_2( x ) )
+            x = self.batchnorm_2( x )
+            x = self.dropout( x )
             x = self.out( x )
             return x
     
@@ -84,11 +157,11 @@ elif model_choice == "sequential":
     nn_model = torch.nn.Sequential(
             torch.nn.Linear( input_features, hidden_1_features ),
             torch.nn.BatchNorm1d( hidden_1_features ),
-            torch.nn.Dropout( p = 0.2 ),
+            torch.nn.Dropout( p = 0.3 ),
             torch.nn.ReLU( hidden_1_features ),
             torch.nn.Linear( hidden_1_features, hidden_2_features ),
             torch.nn.BatchNorm1d( hidden_2_features ),
-            torch.nn.Dropout( p = 0.2 ),
+            torch.nn.Dropout( p = 0.3 ),
             torch.nn.ReLU( hidden_2_features ),
             torch.nn.Linear( hidden_2_features, output_features ),            
             torch.nn.Sigmoid()
@@ -131,11 +204,11 @@ elif model_choice == "five":
             # Define sequence of layers
             x = self.fc1(x) # Fully connected layer
             x = self.bn1(x) # Batch normalisation
-            x = F.dropout(x, p=0.1) # Apply dropout
+            x = F.dropout(x, p = 0.35 ) # Apply dropout
             x = F.relu(x) # ReLU activation
             x = self.fc2(x) # Fully connected layer
             x = self.bn2(x) # Batch normalisation
-            x = F.dropout(x, p=0.1) # Apply dropout
+            x = F.dropout(x, p = 0.35 ) # Apply dropout
             x = F.relu(x) # ReLU activation
             x = self.fc3(x) # Fully connected layer
             x = torch.sigmoid(x) # Sigmoid output (0-1)
@@ -154,7 +227,6 @@ else:
 """loss_fn = nn.NLLLoss()
 optimizer = torch.optim.SGD( nn_model.parameters(), lr = 0.01 )"""
 # In[]
-epochs = 500
 final_losses = []
 for epoch in range( epochs ):
     epoch += 1
@@ -216,8 +288,12 @@ nn_model.eval()
 
 # In[]
 # Set up lists to hold results
-training_acc_results = []
-test_acc_results = []
+if training_acc_results:
+    training_acc_results = training_acc_results
+    test_acc_results = test_acc_results
+else:
+    training_acc_results = []
+    test_acc_results = []
 
 with torch.no_grad():
     tmp_predictions = nn_model( X_train )
@@ -237,6 +313,13 @@ ax1.boxplot( x_for_box, widths = 0.7 )
 ax1.set_xticklabels( labels )
 ax1.set_ylabel( "Accuracy" )
 plt.show()
+
+# In[]
+print( dict(
+    zip(
+        training_acc_results, test_acc_results
+    )
+) )
 # In[]
 # predict new data points
 with torch.no_grad():
@@ -300,3 +383,16 @@ epochs = 5
 """from torchvision import transforms
 transform = transforms.Compose( [ transforms.ToTensor(), transforms.Normalize( ( 0.5, ), ( 0.5, ) ), ] )
 """
+
+# In[]
+# save the model
+"""for model_choice in model_choices:
+    model_file_name = "output/nlms_nn_model{0}_{1}_{2}_epochs_{3}.pt".format( 
+        str( datetime.date.today() ).replace( "-", "_" ), 
+        model_choice, 
+        round( accuracy_scores[ model_choice ], 4 ), 
+        epochs
+    )
+    torch.save( nn_model[model_choice], model_file_name )
+    """nn_model = torch.load( model_file_name )"""
+    nn_model[model_choice].eval()"""

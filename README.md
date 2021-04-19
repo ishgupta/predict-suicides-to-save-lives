@@ -12,3 +12,24 @@ The data attributes are explained [here](https://github.com/ishgupta/predict-sui
 
 ### data
 The dataset can be found [here](https://github.com/ishgupta/predict-suicides-to-save-lives/blob/main/data_/data.csv).
+
+### project structure
+The project contains 3 main scripts:
+0. ml_toolkit.py : a utility script having general ready-to-use functionalities which is utilized by all 3 scripts
+1. eda.ipynb : involves EDA
+2. process_xg_classifier.ipynb : involves experience with the XGBoost classifier
+3. process_nn_classifier.ipynb : involves experience with Pytorch model build for classification
+
+# setup
+please make sure you have below packages installed to use the script:
+1. xgboost
+2. sklearn
+3. pandas
+4. numpy
+5. torch
+6. matplotlib
+7. jupyter
+
+# dataset
+1. 11.csv - used by EDA script could not be included in github repo, or the zip file because of size limitations, and has been uploaded [here](https://drive.google.com/file/d/1d7Aqwn8Vzj5z9c19XAXfWOPkiHcgEn4N/view?usp=sharing) for reference. Please load it into "data_/" directory of the project to start with the eda.ipynb script
+2. data_filtered_imputed_clean.csv - exported after pre-processing in the eda.ipynb is used as input by other scripts

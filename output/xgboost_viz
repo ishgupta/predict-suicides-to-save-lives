@@ -1,95 +1,89 @@
 digraph {
     graph [ rankdir=TB ]
 
-    0 [ label="Hosp_4<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    0 [ label="Sex_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     0 -> 1 [label="yes, missing" color="#0000FF"]
     0 -> 2 [label="no" color="#FF0000"]
 
-    1 [ label="Race_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    1 [ label="Ssnyn_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     1 -> 3 [label="yes, missing" color="#0000FF"]
     1 -> 4 [label="no" color="#FF0000"]
 
-    3 [ label="Age<70.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    3 [ label="Age_0_5<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     3 -> 7 [label="yes, missing" color="#0000FF"]
     3 -> 8 [label="no" color="#FF0000"]
 
-    7 [ label="Hospd_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    7 [ label="Hitype_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     7 -> 15 [label="yes, missing" color="#0000FF"]
     7 -> 16 [label="no" color="#FF0000"]
 
-    15 [ label="leaf=0.00104438642" fillcolor="#e48038" shape="box" style="filled" ]
+    15 [ label="leaf=-0.00341232261" fillcolor="#e48038" shape="box" style="filled" ]
 
-    16 [ label="leaf=-0.0812227055" fillcolor="#e48038" shape="box" style="filled" ]
+    16 [ label="leaf=0.0726315826" fillcolor="#e48038" shape="box" style="filled" ]
 
-    8 [ label="Sex_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    8 -> 17 [label="yes, missing" color="#0000FF"]
-    8 -> 18 [label="no" color="#FF0000"]
+    8 [ label="leaf=-0.148965523" fillcolor="#e48038" shape="box" style="filled" ]
 
-    17 [ label="leaf=-0.172413796" fillcolor="#e48038" shape="box" style="filled" ]
-
-    18 [ label="leaf=-0.100000001" fillcolor="#e48038" shape="box" style="filled" ]
-
-    4 [ label="Hosp_5<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    4 [ label="Age_60_90<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     4 -> 9 [label="yes, missing" color="#0000FF"]
     4 -> 10 [label="no" color="#FF0000"]
 
-    9 [ label="Health_4<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    9 -> 19 [label="yes, missing" color="#0000FF"]
-    9 -> 20 [label="no" color="#FF0000"]
+    9 [ label="Tenure_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    9 -> 17 [label="yes, missing" color="#0000FF"]
+    9 -> 18 [label="no" color="#FF0000"]
 
-    19 [ label="leaf=-0.169747904" fillcolor="#e48038" shape="box" style="filled" ]
+    17 [ label="leaf=0.0395951457" fillcolor="#e48038" shape="box" style="filled" ]
 
-    20 [ label="leaf=-0.0666666701" fillcolor="#e48038" shape="box" style="filled" ]
+    18 [ label="leaf=0.0926213562" fillcolor="#e48038" shape="box" style="filled" ]
 
-    10 [ label="Age<29.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    10 -> 21 [label="yes, missing" color="#0000FF"]
-    10 -> 22 [label="no" color="#FF0000"]
+    10 [ label="Hhnum_3<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    10 -> 19 [label="yes, missing" color="#0000FF"]
+    10 -> 20 [label="no" color="#FF0000"]
 
-    21 [ label="leaf=-0.154285714" fillcolor="#e48038" shape="box" style="filled" ]
+    19 [ label="leaf=0.111366913" fillcolor="#e48038" shape="box" style="filled" ]
 
-    22 [ label="leaf=-0.0266666692" fillcolor="#e48038" shape="box" style="filled" ]
+    20 [ label="leaf=0.0240000021" fillcolor="#e48038" shape="box" style="filled" ]
 
-    2 [ label="Race_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    2 [ label="Ssnyn_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     2 -> 5 [label="yes, missing" color="#0000FF"]
     2 -> 6 [label="no" color="#FF0000"]
 
-    5 [ label="Sex_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    5 [ label="Hhnum_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     5 -> 11 [label="yes, missing" color="#0000FF"]
     5 -> 12 [label="no" color="#FF0000"]
 
-    11 [ label="Hhnum_3<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    11 -> 23 [label="yes, missing" color="#0000FF"]
-    11 -> 24 [label="no" color="#FF0000"]
+    11 [ label="Stater_East_North_Central_Division<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    11 -> 21 [label="yes, missing" color="#0000FF"]
+    11 -> 22 [label="no" color="#FF0000"]
 
-    23 [ label="leaf=-0.171428576" fillcolor="#e48038" shape="box" style="filled" ]
+    21 [ label="leaf=-0.136000007" fillcolor="#e48038" shape="box" style="filled" ]
 
-    24 [ label="leaf=-0.0500000007" fillcolor="#e48038" shape="box" style="filled" ]
+    22 [ label="leaf=-0.0746341497" fillcolor="#e48038" shape="box" style="filled" ]
 
-    12 [ label="Citizen_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    12 -> 25 [label="yes, missing" color="#0000FF"]
-    12 -> 26 [label="no" color="#FF0000"]
+    12 [ label="Smsast_3<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    12 -> 23 [label="yes, missing" color="#0000FF"]
+    12 -> 24 [label="no" color="#FF0000"]
 
-    25 [ label="leaf=-0.0275862068" fillcolor="#e48038" shape="box" style="filled" ]
+    23 [ label="leaf=-0.105714291" fillcolor="#e48038" shape="box" style="filled" ]
 
-    26 [ label="leaf=0.200000003" fillcolor="#e48038" shape="box" style="filled" ]
+    24 [ label="leaf=-0.0200000014" fillcolor="#e48038" shape="box" style="filled" ]
 
-    6 [ label="Hitype_4<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    6 [ label="Hhnum_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
     6 -> 13 [label="yes, missing" color="#0000FF"]
     6 -> 14 [label="no" color="#FF0000"]
 
-    13 [ label="Age<15.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    13 -> 27 [label="yes, missing" color="#0000FF"]
-    13 -> 28 [label="no" color="#FF0000"]
+    13 [ label="Hhnum_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    13 -> 25 [label="yes, missing" color="#0000FF"]
+    13 -> 26 [label="no" color="#FF0000"]
 
-    27 [ label="leaf=-0.03125" fillcolor="#e48038" shape="box" style="filled" ]
+    25 [ label="leaf=-0.0841935501" fillcolor="#e48038" shape="box" style="filled" ]
 
-    28 [ label="leaf=0.0784676373" fillcolor="#e48038" shape="box" style="filled" ]
+    26 [ label="leaf=-0.0447804891" fillcolor="#e48038" shape="box" style="filled" ]
 
-    14 [ label="Hisp_1<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
-    14 -> 29 [label="yes, missing" color="#0000FF"]
-    14 -> 30 [label="no" color="#FF0000"]
+    14 [ label="Smsast_2<0.5" fillcolor="#78cbe" shape="box" style="filled, rounded" ]
+    14 -> 27 [label="yes, missing" color="#0000FF"]
+    14 -> 28 [label="no" color="#FF0000"]
 
-    29 [ label="leaf=0.125609756" fillcolor="#e48038" shape="box" style="filled" ]
+    27 [ label="leaf=0.0244444441" fillcolor="#e48038" shape="box" style="filled" ]
 
-    30 [ label="leaf=-0.0333333351" fillcolor="#e48038" shape="box" style="filled" ]
+    28 [ label="leaf=-0.0658536628" fillcolor="#e48038" shape="box" style="filled" ]
 }
